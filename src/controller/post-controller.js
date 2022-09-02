@@ -77,7 +77,7 @@ class Post {
         if (result) {
             res.status(200).send({ msg: "Post Deleted successfully!!" });
         } else {
-            res.status(400).send({ msg: "Could not delete Post!!" });
+            res.status(400).send({ msg: "Could not delete Post!" });
 
         }
     }
