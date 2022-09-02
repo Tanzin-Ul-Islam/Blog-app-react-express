@@ -13,6 +13,7 @@ export default function Profile() {
   let [gender, setGender] = useState(userInfo.gender);
   let [address, setAddress] = useState(userInfo.address);
   let [selectedFile, setSelectedFile] = useState(null);
+  let [previewImage, setPreviewImage] = useState('');
 
   function editToogle() {
     setEdit(isEdit = !isEdit);
@@ -77,8 +78,10 @@ export default function Profile() {
         {
           userInfo && !userInfo.profilePic ?
             <img src="/assets/images/default.jpg" class="card-img-top" alt="default.jpg" height={240} width={100} />
-            :
-            <img src={imageURL + 'user/' + userInfo.profilePic} class="card-img-top" alt={userInfo.profilePic} height={240} width={100} />
+            : previewImage ?
+              <img src={previewImage} class="card-img-top" alt="default.jpg" height={240} width={100} />
+              :
+              <img src={imageURL + 'user/' + userInfo.profilePic} class="card-img-top" alt={userInfo.profilePic} height={240} width={100} />
         }
 
         <i class="fa-solid fa-pen-to-square edit-btn" onClick={() => { editToogle() }} style={{ cursor: 'pointer' }}></i>
@@ -134,7 +137,10 @@ export default function Profile() {
                     </div>
 
                     <div class="mb-3">
-                      <input type="file" name="imge_field" hidden class="form-control" id="p_image" rows="3" defaultValue={selectedFile} onChange={e => { setSelectedFile(e.target.files[0]) }} />
+                      <input type="file" name="imge_field" hidden class="form-control" id="p_image" rows="3" defaultValue={selectedFile} onChange={e => {
+                        setSelectedFile(e.target.files[0]);
+                        setPreviewImage(URL.createObjectURL(e.target.files[0]));
+                      }} />
                     </div>
 
                     <button type="submit" class="btn btn-primary">Update</button>

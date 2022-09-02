@@ -25,9 +25,8 @@ function App() {
             <Route exact path="/about"> <About /> </Route>
             <Route exact path="/profile"><Profile /></Route>
             <Route exact path="/add-blog"><AddBlog /></Route>
-            <Route exact path="/update-blog"><UpdateBlog /></Route>
+            <Route exact path="/update-blog/:id"><UpdateBlog /></Route>
             <Route exact path="/user-blogs"><UserBlog /></Route>
-            <Route exact path="/update-blog"><UpdateBlog /></Route>
             <Route exact path="/blog-details/:id"> <BlogDetails /> </Route>
             <Route exact path="/login"> <Login /> </Route>
             <Route exact path="/register"> <Register /> </Route>

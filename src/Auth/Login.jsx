@@ -56,7 +56,7 @@ export default function Login() {
                         setUserInfo(obj);
                         console.log("user info",userInfo)
                         swal({
-                            icon: 'success',
+                            icon: 'success', 
                             text: response.data.msg
                         });
                         history.push('/')
