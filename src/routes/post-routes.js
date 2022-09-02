@@ -10,5 +10,7 @@ router.get('/', PostContrller.getAllPost);
 router.get('/users-blog', AuthGuard, PostContrller.getByAuthorId);
 router.get('/:id', AuthGuard, PostContrller.getById);
 router.post('/', AuthGuard, uploadFiles, PostContrller.createPost);
+router.put('/:id', AuthGuard, uploadFiles, PostContrller.updatePost);
+router.delete('/:id', AuthGuard, PostContrller.deletePost);
 
 module.exports = router;

@@ -30,7 +30,31 @@ class Post {
         }
     }
     createPost = async (req, res) => {
+        let title = req.body.title;
+        let titleCount = await posts.countDocuments({ title });
+        if (titleCount == 0) {
+            let image = null;
+            if (Object.values(req.files).length > 0) {
+                image = req.files.image[0].filename;
+            } else {
+                image = req.body.image
+            }
+            req.body.image = image;
+            let userCredential = res.locals.userInfo;
+            req.body.authorId = userCredential.id;
+            const result = await PostModule.createPost(req.body);
+            if (result) {
+                res.status(201).send({ msg: "Blog created successfully.", data: result });
+            } else {
+                res.status(400).send({ msg: "Something went wrong! Could not create blog. Please try again." });
+            }
+        } else {
+            res.status(400).send({ msg: "Title can not be duplicate." });
+        }
 
+    }
+
+    updatePost = async (req, res) => {
         let image = null;
         if (Object.values(req.files).length > 0) {
             image = req.files.image[0].filename;
@@ -38,13 +62,23 @@ class Post {
             image = req.body.image
         }
         req.body.image = image;
-        let userCredential = res.locals.userInfo;
-        req.body.authorId = userCredential.id;
-        const result = await PostModule.createPost(req.body);
+        let postId = req.params.id;
+        let result = await PostModule.updatePost(req.body, postId);
         if (result) {
-            res.status(201).send({ msg: "Blog created successfully.", data: result });
+            res.status(200).send({ msg: "Post update successfully!!", data: result });
         } else {
-            res.status(400).send("Something went wrong! Could not create blog. Please try again.");
+            res.status(400).send({ msg: "Could not update Post!!" });
+
+        }
+    }
+    deletePost = async (req, res) => {
+        let postId = req.params.id;
+        let result = await PostModule.deletePost(postId);
+        if (result) {
+            res.status(200).send({ msg: "Post Deleted successfully!!" });
+        } else {
+            res.status(400).send({ msg: "Could not delete Post!!" });
+
         }
     }
 }

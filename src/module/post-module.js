@@ -10,7 +10,7 @@ class PostModule {
     }
     getById = async (id) => {
         let data = await posts.findOne({ _id: id }).populate({ path: 'authorId', select: ['name', 'userName', 'profilePic'] });
-        if(data){
+        if (data) {
             return data;
         }
     }
@@ -34,7 +34,20 @@ class PostModule {
             return result;
         }
     }
-    
+
+    updatePost = async (data, postId) => {
+        let { title, description, image, category, } = data;
+        const filter = { _id: postId };
+        const update = { title: title, description: description, image: image, category: category };
+        const result = await posts.findOneAndUpdate(filter, update, { new: true });
+        return result;
+    }
+
+    deletePost = async (id) => {
+        const result = await posts.deleteOne({ _id: id });
+        return result;
+    }
+
 }
 
 module.exports = new PostModule;
