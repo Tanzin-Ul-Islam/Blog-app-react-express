@@ -4,11 +4,39 @@ import { Link } from 'react-router-dom';
 import './blog-item.css';
 import { DataContext } from '../../DataProvider';
 import { useLocation, useHistory } from 'react-router-dom';
-const BlogItem = ({ blog }) => {
+import axios from 'axios';
+import swal from 'sweetalert';
+const BlogItem = (props) => {
+    let blog = props.blog
     let history = useHistory();
     let location = useLocation();
     let id = localStorage.getItem('id')
-    const { token, imageURL } = useContext(DataContext);
+    const { token, url, imageURL } = useContext(DataContext);
+    async function deleteBlog() {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this Post!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then(async (willDelete) => {
+            if (willDelete) {
+                await axios({
+                    method: "DELETE",
+                    url: url + 'blog/' + blog._id,
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }).then(response => {
+                    swal({
+                        icon: 'success',
+                        text: response.data.msg
+                    })
+                    props.getBlogs();
+                }).catch(error => (console.log(error)))
+            }
+        });
+    }
     return (
         <div className='blogItem-wrap'>
             <Link to={token ? `/blog-details/${blog._id}` : '/login'}>
@@ -23,8 +51,10 @@ const BlogItem = ({ blog }) => {
                 {
                     (location.pathname == '/user-blogs' && blog.authorId?._id == id) ?
                         <div>
-                            <span style={{ float: 'right' }} className="m-1"><i class="fa-solid fa-trash-can" style={{ cursor: 'pointer' }}></i></span>
-                            <span style={{ float: 'right' }} className="m-1">
+                            <span style={{ float: 'right', position: 'relative', bottom: '27px' }} className="m-1">
+                                <i class="fa-solid fa-trash-can" style={{ cursor: 'pointer' }} onClick={() => { deleteBlog() }}></i>
+                            </span>
+                            <span style={{ float: 'right', position: 'relative', bottom: '27px' }} className="m-1">
                                 <i class="fa-solid fa-pen-to-square" onClick={() => { history.push('/update-blog/' + blog._id) }} style={{ cursor: 'pointer' }}></i>
                             </span>
                         </div>

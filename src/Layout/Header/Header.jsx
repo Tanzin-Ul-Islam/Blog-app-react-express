@@ -5,6 +5,11 @@ import { DataContext } from '../../DataProvider';
 export default function Header() {
     let history = useHistory()
     const { token, setToken, userInfo } = useContext(DataContext);
+    function logout() {
+        localStorage.clear();
+        setToken(null);
+        history.push('/');
+    }
     return (
         <nav class="navbar mb-5">
             <Link to="/" class="nav-logo">Blog App</Link>
@@ -16,9 +21,9 @@ export default function Header() {
                             Category
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="javascript:void(0)" style={{ color: 'black' }}>Food</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0)" style={{ color: 'black' }}>Sports</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0)" style={{ color: 'black' }}>Blog</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" style={{ color: 'black' }} onClick={() => { history.push('/?category=' + 'food') }}>Food</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" style={{ color: 'black' }} onClick={() => { history.push('/?category=' + 'sports') }}>Sports</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" style={{ color: 'black' }} onClick={() => { history.push('/?category=' + 'travel') }}>Travel</a></li>
                         </ul>
                     </div>
                 </li>
@@ -34,7 +39,7 @@ export default function Header() {
                                 <ul class="dropdown-menu">
                                     <li><Link to="/profile" class="dropdown-item" href="javascript:void(0)" style={{ color: 'black' }}>Profile</Link></li>
                                     <li><Link to="/user-blogs" class="dropdown-item" href="javascript:void(0)" style={{ color: 'black' }}>Your Blogs</Link></li>
-                                    <li><Link class="dropdown-item" href="javascript:void(0)" style={{ color: 'black' }}>Logout</Link></li>
+                                    <li><Link class="dropdown-item" href="javascript:void(0)" style={{ color: 'black' }} onClick={() => { logout() }}>Logout</Link></li>
                                 </ul>
                             </div>
                         </li>

@@ -7,7 +7,6 @@ const DataProvider = ({ children }) => {
     const url = 'http://localhost:3001/api/';
     const imageURL = 'http://localhost:3001/';
     const [token, setToken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : null);
-    console.log(token)
     const [userInfo, setUserInfo] = useState({
         name: localStorage.getItem('name') ? localStorage.getItem('name') : '',
         userName: localStorage.getItem('userName') ? localStorage.getItem('userName') : '',

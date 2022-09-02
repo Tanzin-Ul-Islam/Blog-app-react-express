@@ -91,7 +91,6 @@ export default function UpdateBlog() {
             icon: 'success',
             text: response.data.msg,
           });
-          history.push('/user-blogs');
         }
       }).catch((error) => {
         swal({

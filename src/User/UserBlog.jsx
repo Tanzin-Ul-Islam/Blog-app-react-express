@@ -34,7 +34,7 @@ export default function UserBlog() {
         <h4 className='mb-3'>Your Blogs</h4>
         <Link class="badge rounded-pill text-white m-2 create-btn" to="/add-blog">Create Blog</Link>
       </center>
-      {!blogs.length ? "No blog found" : <BlogList blogs={blogs} />}
+      {!blogs.length ? "No blog found" : <BlogList blogs={blogs} getBlogs={getBlogs}/>}
     </div>
   )
 }
