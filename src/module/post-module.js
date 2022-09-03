@@ -3,8 +3,12 @@ const posts = require('../model/posts');
 
 class PostModule {
 
-    getAll = async () => {
-        let data = await posts.find().populate({ path: 'authorId', select: ['name', 'userName', 'profilePic'] });
+    getAll = async (category) => {
+        let query = {};
+        if(category){
+            query.category = category
+        }
+        let data = await posts.find(query).populate({ path: 'authorId', select: ['name', 'userName', 'profilePic'] });
         if (data)
             return data;
     }

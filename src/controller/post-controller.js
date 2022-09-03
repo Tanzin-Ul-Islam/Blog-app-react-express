@@ -2,7 +2,8 @@ const posts = require('../model/posts');
 const PostModule = require('../module/post-module')
 class Post {
     getAllPost = async (req, res) => {
-        const result = await PostModule.getAll();
+        let category = req.query && req.query.category != 'null' ? req.query.category : null;
+        const result = await PostModule.getAll(category);
         if (result) {
             res.status(200).send({ msg: "Blog fetched successfully!", data: result });
         } else {
